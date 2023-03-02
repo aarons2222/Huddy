@@ -12,11 +12,11 @@ import SwiftUI
 
 
 @available(iOS 14.0, *)
-struct HuddyView: View {
+public struct HuddyView: View {
     var state: HuddyState
     var title: String
  
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading) {
             
             HStack(alignment: .center) {
@@ -53,7 +53,7 @@ struct HuddyView: View {
 }
 
 
-enum HuddyState {
+public enum HuddyState {
     case loading
     case purchasing
     case success
@@ -66,18 +66,18 @@ enum HuddyState {
 
 
 
-struct Huddy: Equatable {
+public struct Huddy: Equatable {
     var type: HuddyState
     var title: String
     var duration: Double = 2.5
 }
 
 @available(iOS 14.0, *)
-struct HuddyModifier: ViewModifier {
+public struct HuddyModifier: ViewModifier {
     @Binding var huddy: Huddy?
     @State private var workItem: DispatchWorkItem?
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(
@@ -111,7 +111,7 @@ struct HuddyModifier: ViewModifier {
         }
     }
     
-    private func showHuddy() {
+    public func showHuddy() {
         guard let huddy = huddy else { return }
         
         
@@ -131,7 +131,7 @@ struct HuddyModifier: ViewModifier {
         }
     }
     
-    private func dismissHuddy() {
+    public func dismissHuddy() {
         withAnimation {
             huddy = nil
         }

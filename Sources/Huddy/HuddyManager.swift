@@ -11,9 +11,9 @@ import UIKit
 import SwiftUI
 
 @available(iOS 14.0, *)
-class HuddyManager {
+public class HuddyManager {
     
-    static func showHuddy(state: HuddyState, title: String, in viewController: UIViewController) {
+    public static func showHuddy(state: HuddyState, title: String, in viewController: UIViewController) {
         let huddyView = HuddyView(state: state, title: title)
         let huddyViewController = UIHostingController(rootView: huddyView)
         huddyViewController.view.backgroundColor = UIColor.clear
