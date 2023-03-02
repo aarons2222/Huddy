@@ -58,6 +58,7 @@ public enum HuddyState {
     case purchasing
     case success
     case error
+    case loadingFinished
 }
 
 
@@ -123,7 +124,7 @@ public struct HuddyModifier: ViewModifier {
         guard let huddy = huddy else { return }
         
         
-        if huddy.state == .error || huddy.state == .success{
+        if huddy.state == .error || huddy.state == .success || huddy.state == .loadingFinished{
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
             if huddy.duration > 0 {
