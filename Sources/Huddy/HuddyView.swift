@@ -64,13 +64,21 @@ public enum HuddyState {
 
 
 
-
-
 public struct Huddy: Equatable {
-    var type: HuddyState
+    
+    var state: HuddyState
     var title: String
     var duration: Double = 2.5
+    
+    public init(typstate: HuddyState, title: String, duration: Double = 2.5) {
+        self.state = typstate
+        self.title = title
+        self.duration = duration
+    }
 }
+
+
+
 
 @available(iOS 14.0, *)
 public struct HuddyModifier: ViewModifier {
@@ -102,7 +110,7 @@ public struct HuddyModifier: ViewModifier {
                 
                 Text("").padding(5)
                 HuddyView(
-                    state: huddy.type,
+                    state: huddy.state,
                     title: huddy.title)
                 
                 Spacer()
@@ -115,7 +123,7 @@ public struct HuddyModifier: ViewModifier {
         guard let huddy = huddy else { return }
         
         
-        if huddy.type == .error || huddy.type == .success{
+        if huddy.state == .error || huddy.state == .success{
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
             if huddy.duration > 0 {
@@ -143,7 +151,7 @@ public struct HuddyModifier: ViewModifier {
 
 
 @available(iOS 14.0, *)
-extension View {
+public extension View {
     func huddyView(huddy: Binding<Huddy?>) -> some View {
         self.modifier(HuddyModifier(huddy: huddy))
     }
