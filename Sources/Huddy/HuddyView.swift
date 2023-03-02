@@ -20,7 +20,7 @@ public struct HuddyView: View {
         VStack(alignment: .leading) {
             
             HStack(alignment: .center) {
-                if state == .purchasing || state == .loading {
+                if state == .purchasing || state == .loading || state == .loadingFinished {
                     ProgressView()
                         .frame(width: 25.0, height: 25.0)
                         .foregroundColor(.primary)
@@ -135,7 +135,12 @@ public struct HuddyModifier: ViewModifier {
                 }
                 
                 workItem = task
-                DispatchQueue.main.asyncAfter(deadline: .now() + huddy.duration, execute: task)
+                
+                let delay = huddy.state == .loadingFinished ? DispatchTimeInterval.milliseconds(200) : DispatchTimeInterval.seconds(Int(huddy.duration))
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: task)
+
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: task)
             }
         }
     }
