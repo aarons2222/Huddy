@@ -70,8 +70,8 @@ public struct Huddy: Equatable {
     var title: String
     var duration: Double = 2.5
     
-    public init(typstate: HuddyState, title: String, duration: Double = 2.5) {
-        self.state = typstate
+    public init(state: HuddyState, title: String, duration: Double = 2.5) {
+        self.state = state
         self.title = title
         self.duration = duration
     }
