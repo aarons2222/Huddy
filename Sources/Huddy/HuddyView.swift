@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 
-
 @available(iOS 14.0, *)
 public struct HuddyView: View {
     var state: HuddyState
@@ -20,7 +19,7 @@ public struct HuddyView: View {
         VStack(alignment: .leading) {
             
             HStack(alignment: .center) {
-                if state == .purchasing || state == .loading || state == .loadingFinished {
+                if state == .loading || state == .complete{
                     ProgressView()
                         .frame(width: 25.0, height: 25.0)
                         .foregroundColor(.primary)
@@ -50,15 +49,15 @@ public struct HuddyView: View {
         .cornerRadius(30)
         .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 1)
     }
+    
 }
 
 
 public enum HuddyState {
     case loading
-    case purchasing
     case success
     case error
-    case loadingFinished
+    case complete
 }
 
 
@@ -88,6 +87,7 @@ public struct HuddyModifier: ViewModifier {
     
     public func body(content: Content) -> some View {
         content
+            .blur(radius: huddy != nil ? 10 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(
                 ZStack {
@@ -99,8 +99,6 @@ public struct HuddyModifier: ViewModifier {
                 showHuddy()
             }
     }
-    
-    
     
     
     
@@ -124,7 +122,7 @@ public struct HuddyModifier: ViewModifier {
         guard let huddy = huddy else { return }
         
         
-        if huddy.state == .error || huddy.state == .success || huddy.state == .loadingFinished{
+        if huddy.state == .error || huddy.state == .success || huddy.state == .complete{
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
             if huddy.duration > 0 {
@@ -135,8 +133,10 @@ public struct HuddyModifier: ViewModifier {
                 }
                 
                 workItem = task
+               
                 
-                let delay = huddy.state == .loadingFinished ? DispatchTimeInterval.milliseconds(200) : DispatchTimeInterval.seconds(Int(huddy.duration))
+                
+                let delay = huddy.state == .complete ? DispatchTimeInterval.milliseconds(200) : DispatchTimeInterval.seconds(Int(huddy.duration))
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: task)
 
                 
@@ -153,6 +153,9 @@ public struct HuddyModifier: ViewModifier {
         workItem?.cancel()
         workItem = nil
     }
+    
+    
+    
 }
 
 
