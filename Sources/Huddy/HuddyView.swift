@@ -10,10 +10,13 @@ import Foundation
 import SwiftUI
 
 
+
 @available(iOS 14.0, *)
 public struct HuddyView: View {
     var state: HuddyState
     var title: String
+    @Environment(\.colorScheme) var colorScheme
+
  
     public var body: some View {
         VStack(alignment: .leading) {
@@ -39,13 +42,14 @@ public struct HuddyView: View {
                 
                 VStack(alignment: .leading) {
                     Text(title)
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.black.opacity(0.6))
                 }
             }.padding(.vertical, 10)
              .padding(.horizontal)
           
             
         }
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.gray : Color.white)
         .cornerRadius(30)
         .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 1)
     }
